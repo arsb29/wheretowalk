@@ -1415,11 +1415,38 @@ svg.leaflet-image-layer.leaflet-interactive path {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.popup__metroIcon {
+  padding: 5px 5px 8px 5px;
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0px 10px 0px 0px;
+  -webkit-transition: all 1s ease 0s;
+  -o-transition: all 1s ease 0s;
+  transition: all 1s ease 0s;
+}
+
+.popup__metroIcon img {
+  width: 100%;
 }
 
 .popup__metroStation {
-  padding: 5px 0px 5px 40px;
-  background: url("../img/icons/metro1.png") 0px 0/contain no-repeat;
+  padding: 5px 0px;
 }
 
 .popup__address {
@@ -2210,8 +2237,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .webp .header__cart{ background: rgba(255, 255, 255, 0.2) url(../img/icons/cart.webp) 13px center/auto auto no-repeat; }
 
 .webp .header__cart:active{ background: white url(../img/icons/cart-full.webp) 13px center/auto auto no-repeat; }
-
-.webp .popup__metroStation{ background: url(../img/icons/metro1.webp) 0px 0/contain no-repeat; }
 
 .webp .rubleGreen{ background: url(../img/icons/rubleGreen.webp) 0px 0/contain no-repeat; }
 

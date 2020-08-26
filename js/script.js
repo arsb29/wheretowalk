@@ -55,7 +55,7 @@ function popupFilling(curentPopup, contentForFilling) {
 	}
 	var picture = curentPopup.querySelector('picture');
 	var source;
-
+	
 	if (L.Browser.safari) {
 		source = document.createElement('img');
 		source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
@@ -64,7 +64,7 @@ function popupFilling(curentPopup, contentForFilling) {
 		}
 		setTimeout(deleteLoaderHidden, 1000, curentPopup);
 		source.onload = function () {
-			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',') + 'alt="">';
+			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',')[0] + '" alt="' + contentForFilling.title + '">';
 		}
 	} else {
 		source = document.createElement('img');
@@ -77,9 +77,10 @@ function popupFilling(curentPopup, contentForFilling) {
 			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split('.')[0] + '.webp" type="image/webp">';
 		}
 	}
+	var metroColors = ['#d6083b', '#0078c9', '#009b47', '#ea7125', '#702785'];
 
-	curentPopup.querySelector('.popup__metroStation').style.background = 'url("../img/icons/metro' + contentForFilling.metroLine + '.png") 0px 0 / contain no-repeat';
-	console.log()
+	curentPopup.querySelector('.popup__metroIcon').style.backgroundColor = metroColors[contentForFilling.metroLine - 1];
+	// console.log(curentPopup.querySelector('.popup__metroStation').style.background)
 
 
 	// var img = document.createElement('img');
@@ -766,4 +767,4 @@ var geoJsonLayer = L.geoJSON(geojson, {
 	return layer.feature.properties.title;
 }).addTo(map);
 
-// popupO(curentPopup)
+popupO(curentPopup)
