@@ -19,6 +19,7 @@ function loading(picture) {
 
 
 function popupFilling(curentPopup, contentForFilling) {
+	curentPopup.querySelector('.loader').classList.remove('loader__hidden')
 	curentPopup.querySelector('.popup__title').innerHTML = contentForFilling.title;
 	curentPopup.querySelector('.brief-popup__free').classList.remove('rubleRed', 'rubleGreen');
 	curentPopup.querySelector('.brief-popup__food').classList.remove('foodRed', 'foodGreen');
@@ -50,12 +51,46 @@ function popupFilling(curentPopup, contentForFilling) {
 	if (contentForFilling.image === "") {
 		curentPopup.querySelector('.popup__image').style.paddingBottom = "0px";
 	} else {
-		curentPopup.querySelector('.popup__image').style.paddingBottom = "400px";
+		curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
 	}
 	var picture = curentPopup.querySelector('picture');
-	picture.querySelector('source').setAttribute("srcset", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp");
-	picture.querySelector('img').setAttribute("src", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg");
+	var source;
 
+	if (L.Browser.safari) {
+		source = document.createElement('img');
+		source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
+		function deleteLoaderHidden(curentPopup) {
+			curentPopup.querySelector('.loader').classList.add('loader__hidden')
+		}
+		setTimeout(deleteLoaderHidden, 1000, curentPopup);
+		source.onload = function () {
+			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',') + 'alt="">';
+		}
+	} else {
+		source = document.createElement('img');
+		source.src = "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp";
+		function deleteLoaderHidden(curentPopup) {
+			curentPopup.querySelector('.loader').classList.add('loader__hidden')
+		}
+		setTimeout(deleteLoaderHidden, 1000, curentPopup);
+		source.onload = function () {
+			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split('.')[0] + '.webp" type="image/webp">';
+		}
+	}
+
+	curentPopup.querySelector('.popup__metroStation').style.background = 'url("../img/icons/metro' + contentForFilling.metroLine + '.png") 0px 0 / contain no-repeat';
+	console.log()
+
+
+	// var img = document.createElement('img');
+	// img.src = "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg"; // здесь начинается загрузка изображения
+	// img.onload = function () {
+	// 	picture.innerHTML = '<img id="your_photo" src="' + your_photo_path + '">';
+	// }
+
+
+	// picture.querySelector('source').setAttribute("srcset", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp");
+	// picture.querySelector('img').setAttribute("src", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg");
 
 }
 
@@ -219,11 +254,11 @@ var geojson = {
 				"properties": {
 					"number": 2,
 					"title": "Воронинский сквер",
-					"image": "voroninskiy.jpg,voroninskiy2.jpg",
+					"image": "voroninskiy2.JPG,voroninskiy.jpg,",
 					"type": "Парк",
 					"address": "пр. Большой Сампсониевский, д. 75",
 					"district": "Выборгский",
-					"description": "Сквер назван в честь арктического капитана Владимир Иванович Воронина, потомственного помора.",
+					"description": "Сквер назван в честь арктического капитана Владимира Ивановича Воронина, потомственного помора.",
 					"site": "https://www.gov.spb.ru/gov/terr/reg_viborg/news/157802/",
 					"metroLine": 1,
 					"metroStation": "Лесная",
@@ -245,7 +280,7 @@ var geojson = {
 				"properties": {
 					"number": 3,
 					"title": "Иван Кожедуб",
-					"image": "ivankojedub.jpg,ivankojedub2.jpg",
+					"image": "ivankojedub.JPG,ivankojedub2.JPG",
 					"type": "Граффити",
 					"address": "ул. Студенческая, д. 5, лит. Б",
 					"district": "Выборгский",
@@ -271,7 +306,7 @@ var geojson = {
 				"properties": {
 					"number": 4,
 					"title": "Красный человечек",
-					"image": "krasnyi.jpg,krasnyi2.jpg",
+					"image": "krasnyi.jpg,krasnyi2.JPG",
 					"type": "Памятник",
 					"address": "ул. Кантемировская, д. 3а",
 					"district": "Выборгский",
@@ -297,7 +332,7 @@ var geojson = {
 				"properties": {
 					"number": 5,
 					"title": "В.И. Ленин",
-					"image": "lenin.gpg,lenin1.gpg,",
+					"image": "lenin.JPG,lenin1.JPG",
 					"type": "Памятник",
 					"address": "пер. Красногвардейский, д. 23, лит. Щ",
 					"district": "Приморский",
@@ -323,7 +358,7 @@ var geojson = {
 				"properties": {
 					"number": 6,
 					"title": "Строгановский парк",
-					"image": "stroganof.jpg,stroganof1.jpg",
+					"image": "stroganof.JPG,stroganof1.JPG",
 					"type": "Парк",
 					"address": "наб. Ушаковская, д. 9, кор. 2",
 					"district": "Приморский",
@@ -349,12 +384,38 @@ var geojson = {
 				"properties": {
 					"number": 7,
 					"title": "Сквер им. Ольги Берггольц",
-					"image": "berg.jpg,berg1.jpg,berg2.jpg",
+					"image": "berg.JPG,berg1.JPG,berg2.JPG",
 					"type": "Парк",
 					"address": "ул. Школьная, д. 9",
 					"district": "Приморский",
 					"description": "В сквере установлен памятный знак Ольге Фёдоровне Берггольц (1910-1975) — всенародно любимой поэтессе и прозаику, которая в годы блокады Ленинграда, оставаясь в осаждённом городе, работала на радио, поддерживая у горожан волю к жизни и веру в победу.",
 					"site": "https://ru.wikipedia.org/wiki/%D0%91%D0%B5%D1%80%D0%B3%D0%B3%D0%BE%D0%BB%D1%8C%D1%86,_%D0%9E%D0%BB%D1%8C%D0%B3%D0%B0_%D0%A4%D1%91%D0%B4%D0%BE%D1%80%D0%BE%D0%B2%D0%BD%D0%B0",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.292719,
+						59.989057
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 8,
+					"title": "Сквер на ул. Академика Шиманского",
+					"image": "akadshim.JPG,akadshim1.JPG",
+					"type": "Парк",
+					"address": "ул. Савушкина, д. 21",
+					"district": "Приморский",
+					"description": "Юлиан Александрович Шиманский - Советский учёный, академик АН СССР. Автор многочисленных трудов по строительной механике, теории корабля и общего кораблестроения.",
+					"site": "https://ru.wikipedia.org/wiki/%D0%A8%D0%B8%D0%BC%D0%B0%D0%BD%D1%81%D0%BA%D0%B8%D0%B9,_%D0%AE%D0%BB%D0%B8%D0%B0%D0%BD_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%D0%BE%D0%B2%D0%B8%D1%87",
 					"metroLine": 2,
 					"metroStation": "Черная речка",
 					"food": "true",
@@ -365,8 +426,320 @@ var geojson = {
 				"geometry": {
 					"type": "Point",
 					"coordinates": [
-						30.292719,
-						59.989057
+						30.285452,
+						59.986575
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 9,
+					"title": "Скульптурная композиция \"Пушкин ушёл\"",
+					"image": "pushysh.JPG,pushysh1.JPG",
+					"type": "Памятник",
+					"address": "ул. Савушкина, д. 1",
+					"district": "Приморский",
+					"description": "Центром композиции является кованая скамья, на которой висит плащ Пушкина, лежит его цилиндр, открытая книга и перо. Позади скамьи размещён гранитный камень, на одной стороне которого выгравирован отрывок из стихотворения «19 октября 1825».",
+					"site": "https://ru.wikipedia.org/wiki/%D0%9F%D1%83%D1%88%D0%BA%D0%B8%D0%BD,_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80_%D0%A1%D0%B5%D1%80%D0%B3%D0%B5%D0%B5%D0%B2%D0%B8%D1%87",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.300117,
+						59.986781
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 10,
+					"title": "Салтыковский сад",
+					"image": "saltsad.JPG,saltsad1.JPG",
+					"type": "Парк",
+					"address": "пр. Приморский, д. 3",
+					"district": "Приморский",
+					"description": "Сад назван в честь Салтыковой Елизаветы Павловны (урождённой графини Строганова) 1802 - 1863г. В саду, в 10 метрах от ст. м. Чёрная речка, находится её дача.",
+					"site": "https://zen.yandex.ru/media/stone_spb/sanktpeterburg-istoriia-dachi-kniagini-e-p-saltykovoi-5ddf4d16302888135726ee3f",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.29768,
+						59.984768
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 11,
+					"title": "Ушаковский мост",
+					"image": "ushakovs.JPG,ushakovs1.JPG",
+					"type": "Мост",
+					"address": "пр. Каменноостровский, д. 68",
+					"district": "Петроградский",
+					"description": "Мост через Большую Невку. Современное название мосту присвоено в память адмирала Ф. Ф. Ушакова (русский флотоводец, командующий Черноморским флотом (1790—1798); командующий русско-турецкой эскадрой в Средиземном море (1798—1800), адмирал (1799)",
+					"site": "https://ru.wikipedia.org/wiki/%D0%A3%D1%88%D0%B0%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BC%D0%BE%D1%81%D1%82",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.30019,
+						59.982678
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 12,
+					"title": "Памятники великим борцам в истории России",
+					"image": "pamborc.JPG,pamborc1.JPG,pamborc2.JPG,pamborc3.JPG,pamborc4.JPG,pamborc5.JPG",
+					"type": "Памятник",
+					"address": "пр. Каменноостровский, д. 68",
+					"district": "Петроградский",
+					"description": "Памятники великим борцам современности, таким как: Н.Н. Соловьёв: чемпион Олимпийских игр 1956 г. по классической борьбе, А.А. Рощин: олимпийский чемпион 1972 г. по греко-римской борьбе, А.А. Карелин: трёхкратный победитель Олимпийских игр (1988 г., 1992 г., 1996 г.) по греко-римской борьбе, Н.В. Воробьёва: олимпийская чемпионка 2012 г. по вольной борьбе, Т.К. Хайбулаев: олимпийский чемпион 2012 г. по дзюдо.",
+					"site": "https://www.cshsm.ru/",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.298805,
+						59.981157
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 13,
+					"title": "Особняк В.Н. Яковенко",
+					"image": "yakoven.JPG,yakoven1.JPG",
+					"type": "Здание",
+					"address": "аллея Большая, д. 22ж",
+					"district": "Петроградский",
+					"description": "Семья Яковенко владела особняком 20 лет. Двухэтажное здание, стилизованное в духе французской готики и ренессанса. Профессорский дом соединен переходом со зданием Санкт-Петербургского морского рыбопромышленного колледжа.",
+					"site": "https://www.citywalls.ru/house1847.html",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.279843,
+						59.980062
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 14,
+					"title": "Каменноостровский театр",
+					"image": "kamenteatr.JPG,kamenteatr1.JPG,kamenteatr2.JPG",
+					"type": "Театр",
+					"address": "пл. Старого Театра, д. 13",
+					"district": "Петроградский",
+					"description": "театр является памятником русского деревянного зодчества периода классицизма. Это единственный сохранившийся в России деревянный театр, построенный в 1827 году по проекту Смарагда Шустова на Каменном острове.",
+					"site": "https://bdt.spb.ru/",
+					"metroLine": 5,
+					"metroStation": "Крестовский остров",
+					"food": "true",
+					"free": "false",
+					"outdoor": "false",
+					"noctidial": "false"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.275317,
+						59.976891
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 15,
+					"title": "Скульптура \"Девушка с веслом\"",
+					"image": "devasveslom.JPG,devasveslom1.JPG",
+					"type": "Памятник",
+					"address": "наб. реки Крестовки, д. 7-11, лит. А",
+					"district": "Петроградский",
+					"description": "Парковая скульптура \"Девушка с веслом\" в советское время была не менее, если не более, распространенным \"уличным произведением искусства\", чем монументы вождям. Эти \"памятники физкультуре и здоровому образу жизни\", по задумке вполне безобидные, стали символом пошлости",
+					"site": "https://zen.yandex.ru/media/emperia/kak-poiavilas-skulptura-devushka-s-veslom-5c386009b4150800aa729961?utm_source=serp",
+					"metroLine": 5,
+					"metroStation": "Крестовский остров",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.276264,
+						59.97569
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 16,
+					"title": "Дуб Петра Великого",
+					"image": "dubpv.JPG,dubpv1.JPG,dubpv2.JPG",
+					"type": "Памятник",
+					"address": "наб. реки Малой Невки, д. 39",
+					"district": "Петроградский",
+					"description": "Старый внушительный дуб на Каменном острове молва окрестила «петровским» в конце XIX века, когда Каменный остров стал местом гуляний петербургской публики. По легенде, его посадил сам Петр Первый в 1715 году",
+					"site": "https://zen.yandex.ru/media/id/5cc17d86c53c2900afb2b4bf/posajennyi-petrom-pervym-dub-5cd99b4448289800b218c22c",
+					"metroLine": 5,
+					"metroStation": "Крестовский остров",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.282491,
+						59.974643
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 17,
+					"title": "Дом княгини М.К. Кугушевой",
+					"image": "domkug.JPG,domkug1.JPG",
+					"type": "Здание",
+					"address": "аллея Боковая, д. 1",
+					"district": "Петроградский",
+					"description": "Здание в стиле поздней эклектики было построено по проекту архитектора Прейса для книягини М.К. Кугушевой в 1895 году. После революции 1917 года и вплоть до 1971 года дом был отдан под коммунальные кваритры. В 1973 году здание было передано Детской художественной школе №10 имени Б.М. Кустодиева.",
+					"site": "https://www.citywalls.ru/house9934.html",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.291959,
+						59.976929
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 18,
+					"title": "Сфинксы",
+					"image": "sfin.JPG,sfin1.JPG,sfin2.JPG,sfin3.JPG",
+					"type": "Памятник",
+					"address": "наб. реки Малой Невки, д. 11",
+					"district": "Петроградский",
+					"description": "На Каменном острове, на набережной Малой Невки у дачи принца Ольденбургского есть спуск к воде, украшенный двумя величественными фигурами сфинксов. Они смотрятся здесь настолько органично, что, кажется, стояли в этом месте всегда.",
+					"site": "https://goodspb.livejournal.com/291066.html",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.298273,
+						59.977637
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 19,
+					"title": "Гауптвахта Каменноостровского дворца",
+					"image": "gauptvax.JPG, gauptvax1.JPG",
+					"type": "Здание",
+					"address": "пр. Каменноостровский, д. 77",
+					"district": "Петроградский",
+					"description": "Гауптвахта, она же Караульный дом, то есть место для размещения караула.",
+					"site": "https://www.citywalls.ru/house9926.html",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "false",
+					"noctidial": "false"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.300577,
+						59.978792
+					]
+				}
+			},
+			{
+				"type": "Feature",
+				"properties": {
+					"number": 20,
+					"title": "Каменноостровский мост",
+					"image": "kamenomost.JPG,kamenomost1.JPG",
+					"type": "Мост",
+					"address": "пр. Каменноостровский, д. 77",
+					"district": "Петроградский",
+					"description": " мост через Малую Невку в Санкт-Петербурге. Соединяет Аптекарский и Каменный острова. Название моста дано по наименованию Каменноостровского проспекта. ",
+					"site": "https://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D0%BE%D1%81%D1%82%D1%80%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9_%D0%BC%D0%BE%D1%81%D1%82",
+					"metroLine": 2,
+					"metroStation": "Черная речка",
+					"food": "false",
+					"free": "true",
+					"outdoor": "true",
+					"noctidial": "true"
+				},
+				"geometry": {
+					"type": "Point",
+					"coordinates": [
+						30.301378,
+						59.977536
 					]
 				}
 			}
@@ -382,13 +755,15 @@ var geoJsonLayer = L.geoJSON(geojson, {
 	}
 }).bindPopup(function (layer) {
 	setTimeout(popupO, 0, curentPopup, layer.feature.properties);
-	var needAnimation;
-	if (map.getZoom() < 15 || map.getZoom() > 17) {
-		needAnimation = false;
-	} else {
-		needAnimation = true;
-	}
+	var needAnimation = false;
+	// if (map.getZoom() < 15 || map.getZoom() > 17) {
+	// 	needAnimation = false;
+	// } else {
+	// 	needAnimation = true;
+	// }
 
 	map.flyTo(L.latLng(layer.getLatLng().lat, layer.getLatLng().lng - 0.04119873046875 / 4), 16, { animate: needAnimation });
 	return layer.feature.properties.title;
 }).addTo(map);
+
+popupO(curentPopup)
