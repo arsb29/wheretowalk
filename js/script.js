@@ -767,4 +767,4 @@ var geoJsonLayer = L.geoJSON(geojson, {
 	return layer.feature.properties.title;
 }).addTo(map);
 
-popupO(curentPopup)
+// popupO(curentPopup)
