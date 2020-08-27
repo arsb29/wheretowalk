@@ -53,7 +53,7 @@ function popupFilling(curentPopup, contentForFilling) {
 	// } else {
 	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
 	// }
-	var picture = curentPopup.querySelector('picture');
+	var picture = curentPopup.querySelector('popup__image');
 	var source;
 
 	if (L.Browser.safari) {

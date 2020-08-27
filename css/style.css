@@ -1381,6 +1381,16 @@ svg.leaflet-image-layer.leaflet-interactive path {
   font-size: 20px;
   color: #000;
   text-decoration: none;
+  width: 20px;
+  height: 20px;
+  -webkit-transition: all 0.7s ease 0s;
+  -o-transition: all 0.7s ease 0s;
+  transition: all 0.7s ease 0s;
+}
+
+.popup__close img {
+  width: 100%;
+  height: 100%;
 }
 
 .popup__title {
@@ -1920,6 +1930,12 @@ svg.leaflet-image-layer.leaflet-interactive path {
     /* remove scrollbar space */
     background: transparent;
     /* optional: just make scrollbar invisible */
+  }
+
+  .popup__close:hover {
+    -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
   }
 
   .rubleGreen:hover {
