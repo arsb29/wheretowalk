@@ -33,10 +33,10 @@ function popupFilling(curentPopup, contentForFilling) {
 	}
 	if (contentForFilling.food === 'true') {
 		curentPopup.querySelector('.brief-popup__food').classList.add('foodGreen');
-		curentPopup.querySelector('.brief-popup__food').innerHTML = 'Разрешена';
+		curentPopup.querySelector('.brief-popup__food').innerHTML = 'Есть точки общепита';
 	} else {
 		curentPopup.querySelector('.brief-popup__food').classList.add('foodRed');
-		curentPopup.querySelector('.brief-popup__food').innerHTML = 'Запрещена';
+		curentPopup.querySelector('.brief-popup__food').innerHTML = 'Еда с собой';
 	}
 	if (contentForFilling.outdoor === 'true') {
 		curentPopup.querySelector('.brief-popup__outdoor').classList.add('outdoorGreen');
@@ -48,23 +48,24 @@ function popupFilling(curentPopup, contentForFilling) {
 	curentPopup.querySelector('.popup__metroStation').innerHTML = contentForFilling.metroStation;
 	curentPopup.querySelector('.popup__address').innerHTML = contentForFilling.address;
 	curentPopup.querySelector('.popup__description').innerHTML = contentForFilling.description;
-	if (contentForFilling.image === "") {
-		curentPopup.querySelector('.popup__image').style.paddingBottom = "0px";
-	} else {
-		curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
-	}
+	// if (contentForFilling.image === "") {
+	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "0px";
+	// } else {
+	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
+	// }
 	var picture = curentPopup.querySelector('picture');
 	var source;
-	
+
 	if (L.Browser.safari) {
 		source = document.createElement('img');
 		source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
 		function deleteLoaderHidden(curentPopup) {
 			curentPopup.querySelector('.loader').classList.add('loader__hidden')
 		}
-		setTimeout(deleteLoaderHidden, 1000, curentPopup);
+
 		source.onload = function () {
 			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',')[0] + '" alt="' + contentForFilling.title + '">';
+			setTimeout(deleteLoaderHidden, 1000, curentPopup);
 		}
 	} else {
 		source = document.createElement('img');
@@ -72,24 +73,21 @@ function popupFilling(curentPopup, contentForFilling) {
 		function deleteLoaderHidden(curentPopup) {
 			curentPopup.querySelector('.loader').classList.add('loader__hidden')
 		}
-		setTimeout(deleteLoaderHidden, 1000, curentPopup);
+
 		source.onload = function () {
 			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split('.')[0] + '.webp" type="image/webp">';
+			setTimeout(deleteLoaderHidden, 1000, curentPopup);
 		}
 	}
 	var metroColors = ['#d6083b', '#0078c9', '#009b47', '#ea7125', '#702785'];
 
 	curentPopup.querySelector('.popup__metroIcon').style.backgroundColor = metroColors[contentForFilling.metroLine - 1];
 	// console.log(curentPopup.querySelector('.popup__metroStation').style.background)
-
-
 	// var img = document.createElement('img');
 	// img.src = "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg"; // здесь начинается загрузка изображения
 	// img.onload = function () {
 	// 	picture.innerHTML = '<img id="your_photo" src="' + your_photo_path + '">';
 	// }
-
-
 	// picture.querySelector('source').setAttribute("srcset", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp");
 	// picture.querySelector('img').setAttribute("src", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg");
 
@@ -767,4 +765,4 @@ var geoJsonLayer = L.geoJSON(geojson, {
 	return layer.feature.properties.title;
 }).addTo(map);
 
-// popupO(curentPopup)
+popupO(curentPopup)
