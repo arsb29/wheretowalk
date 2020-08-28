@@ -53,30 +53,28 @@ function popupFilling(curentPopup, contentForFilling) {
 	// } else {
 	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
 	// }
-	var picture = curentPopup.querySelector('popup__image');
+	var picture = curentPopup.querySelector('.popup__image');
 	var source;
 
 	if (L.Browser.safari) {
 		source = document.createElement('img');
 		source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
 		function deleteLoaderHidden(curentPopup) {
-			curentPopup.querySelector('.loader').classList.add('loader__hidden')
-		}
-
+			curentPopup.querySelector('.loader').classList.add('loader__hidden');
+		};
 		source.onload = function () {
-			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',')[0] + '" alt="' + contentForFilling.title + '">';
-			setTimeout(deleteLoaderHidden, 1000, curentPopup);
+			picture.querySelector('picture').innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',')[0] + '" alt="' + contentForFilling.title + '">';
+			setTimeout(deleteLoaderHidden, 500, curentPopup);
 		}
 	} else {
 		source = document.createElement('img');
 		source.src = "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp";
 		function deleteLoaderHidden(curentPopup) {
-			curentPopup.querySelector('.loader').classList.add('loader__hidden')
-		}
-
+			curentPopup.querySelector('.loader').classList.add('loader__hidden');
+		};
 		source.onload = function () {
-			picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split('.')[0] + '.webp" type="image/webp">';
-			setTimeout(deleteLoaderHidden, 1000, curentPopup);
+			picture.querySelector('picture').innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split('.')[0] + '.webp">';
+			setTimeout(deleteLoaderHidden, 500, curentPopup);
 		}
 	}
 	var metroColors = ['#d6083b', '#0078c9', '#009b47', '#ea7125', '#702785'];
@@ -211,6 +209,27 @@ document.addEventListener('keydown', function (e) {
 			Element.prototype.msMatchesSelector;
 	}
 })();
+;
+const iconMenu = document.querySelector('.icon-menu');
+const menuBody = document.querySelector('.menu__body');
+const mLink = document.querySelectorAll('.menu__link');
+const bodyBurger = document.querySelector('body');
+
+iconMenu.addEventListener('click', function () {
+	iconMenu.classList.toggle('active');
+	menuBody.classList.toggle('active');
+	if (parseInt(window.innerWidth) < 992) {
+		bodyBurger.classList.toggle('lock');
+	};
+});
+
+// for (var k = 0; k < mLink.length; k++) {
+// 	mLink[k].addEventListener('click', function () {
+// 		iconMenu.classList.remove('active');
+// 		menuBody.classList.remove('active');
+// 		body.classList.remove('lock');
+// 	})
+// };
 ;
 
 var map = new L.map("map").setView([59.939080, 30.315258], 12);
@@ -746,23 +765,32 @@ var geojson = {
 };
 
 const curentPopup = document.getElementById('popup');
+var layerGroup = L.layerGroup();
 
+// function onEachFeature(feature, layer) {
+// 	if (feature.properties.type === "Памятник") {
+// 		console.log(1);
+// 		layerGroup.addLayer(layer);
+// 	}
+// }
 
 var geoJsonLayer = L.geoJSON(geojson, {
 	style: function (feature) {
 		return { color: feature.properties.color };
+	},
+	filter: function (feature, layer) {
+		// return feature.properties.type === "Памятник"
+		return true
 	}
 }).bindPopup(function (layer) {
 	setTimeout(popupO, 0, curentPopup, layer.feature.properties);
 	var needAnimation = false;
-	// if (map.getZoom() < 15 || map.getZoom() > 17) {
-	// 	needAnimation = false;
-	// } else {
-	// 	needAnimation = true;
-	// }
-
 	map.flyTo(L.latLng(layer.getLatLng().lat, layer.getLatLng().lng - 0.04119873046875 / 4), 16, { animate: needAnimation });
 	return layer.feature.properties.title;
-}).addTo(map);
+}).addTo(map)
+
+// console.log(layerGroup);
+// layerGroup.addTo(map);
+
 
 popupO(curentPopup)
