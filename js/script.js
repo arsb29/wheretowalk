@@ -230,7 +230,58 @@ iconMenu.addEventListener('click', function () {
 // 		body.classList.remove('lock');
 // 	})
 // };
-;
+
+
+const selectSingleType = document.querySelector('.filter__select__type');
+const selectSingle_titleType = selectSingleType.querySelector('.filter__select__title__type');
+const selectSingle_labelsType = selectSingleType.querySelectorAll('.filter__select__label__type');
+
+// Toggle menu
+selectSingle_titleType.addEventListener('click', () => {
+	if ('active' === selectSingleType.getAttribute('data-state')) {
+		selectSingleType.setAttribute('data-state', '');
+	} else {
+		selectSingleType.setAttribute('data-state', 'active');
+	}
+});
+
+// Close when click to option
+for (let i = 0; i < selectSingle_labelsType.length; i++) {
+	selectSingle_labelsType[i].addEventListener('click', (evt) => {
+		selectSingle_titleType.textContent = evt.target.textContent;
+		selectSingleType.setAttribute('data-state', '');
+
+	});
+}
+
+const selectSingleDistrict = document.querySelector('.filter__select__district');
+const selectSingle_titleDistrict = selectSingleDistrict.querySelector('.filter__select__title__district');
+const selectSingle_labelsDistrict = selectSingleDistrict.querySelectorAll('.filter__select__label__district');
+
+// Toggle menu
+selectSingle_titleDistrict.addEventListener('click', () => {
+	if ('active' === selectSingleDistrict.getAttribute('data-state')) {
+		selectSingleDistrict.setAttribute('data-state', '');
+	} else {
+		selectSingleDistrict.setAttribute('data-state', 'active');
+	}
+});
+
+// Close when click to option
+for (let i = 0; i < selectSingle_labelsDistrict.length; i++) {
+	selectSingle_labelsDistrict[i].addEventListener('click', (evt) => {
+		selectSingle_titleDistrict.textContent = evt.target.textContent;
+		selectSingleDistrict.setAttribute('data-state', '');
+
+	});
+}
+
+// Reset title
+const reset = document.querySelector('.filter__reset');
+reset.addEventListener('click', () => {
+	selectSingle_titleType.textContent = selectSingle_titleType.getAttribute('data-default');
+	selectSingle_titleDistrict.textContent = selectSingle_titleDistrict.getAttribute('data-default');
+});;
 
 var map = new L.map("map").setView([59.939080, 30.315258], 12);
 
@@ -793,4 +844,4 @@ var geoJsonLayer = L.geoJSON(geojson, {
 // layerGroup.addTo(map);
 
 
-popupO(curentPopup)
+// popupO(curentPopup)

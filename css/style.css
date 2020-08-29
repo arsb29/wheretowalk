@@ -1035,9 +1035,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .header {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1050;
+  right: 0;
+  width: auto;
+  z-index: 1080;
 }
 
 .header__menu {
@@ -1061,6 +1061,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   -webkit-transform: translate(100%, -100%);
       -ms-transform: translate(100%, -100%);
           transform: translate(100%, -100%);
@@ -1093,12 +1096,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
           flex-direction: column;
 }
 
-.menu__list li a {
-  margin: 0px 20px 0px 0px;
-}
-
-.menu__list li:last-child a {
-  margin: 0px 0 0px 0px;
+.menu__list li {
+  margin: 0px 0px 20px 0px;
 }
 
 .menu__link {
@@ -1109,9 +1108,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   -webkit-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
-  padding: 5px 32px;
   border-radius: 20px;
-  margin: 0px 0 0px 0px;
+  margin: 0px 0 10px 0px;
 }
 
 .icon-menu {
@@ -1131,6 +1129,172 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 .icon-menu.active {
   background: url("../img/icons/closeWhite.png") 10px 10px/30px 30px no-repeat;
+}
+
+.filter__select {
+  position: relative;
+  width: 230px;
+  height: 40px;
+  margin: 0 auto;
+}
+
+.filter__select[data-state="active"] .filter__select__title::before {
+  -webkit-transform: translate(-3px, -50%) rotate(-45deg);
+      -ms-transform: translate(-3px, -50%) rotate(-45deg);
+          transform: translate(-3px, -50%) rotate(-45deg);
+}
+
+.filter__select[data-state="active"] .filter__select__title::after {
+  -webkit-transform: translate(3px, -50%) rotate(45deg);
+      -ms-transform: translate(3px, -50%) rotate(45deg);
+          transform: translate(3px, -50%) rotate(45deg);
+}
+
+.filter__select[data-state="active"] .filter__select__content {
+  opacity: 1;
+}
+
+.filter__select[data-state="active"] .filter__select__label + .filter__select__input + .filter__select__label {
+  max-height: 40px;
+  border-top-width: 1px;
+}
+
+.filter__select__title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px;
+  color: #fff;
+  border-radius: 5px;
+  border: solid 1px #fff;
+  cursor: pointer;
+}
+
+.filter__select__title::before,
+.filter__select__title::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  display: block;
+  width: 10px;
+  height: 2px;
+  -webkit-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  background-color: #fff;
+  -webkit-transform: translate(-3px, -50%) rotate(45deg);
+      -ms-transform: translate(-3px, -50%) rotate(45deg);
+          transform: translate(-3px, -50%) rotate(45deg);
+}
+
+.filter__select__title::after {
+  -webkit-transform: translate(3px, -50%) rotate(-45deg);
+      -ms-transform: translate(3px, -50%) rotate(-45deg);
+          transform: translate(3px, -50%) rotate(-45deg);
+}
+
+.filter__select__title:hover {
+  border-color: #fff;
+}
+
+.filter__select__title:hover::before,
+.filter__select__title:hover::after {
+  background-color: #fff;
+}
+
+.filter__select__content {
+  position: absolute;
+  top: 40px;
+  left: 3px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: calc(100% - 6px);
+  background-color: #ffffff;
+  border: 1px solid #c7ccd1;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  -webkit-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  opacity: 0;
+  z-index: 8;
+}
+
+.filter__select__input {
+  display: none;
+}
+
+.filter__select__input:checked + label {
+  background-color: #dedede;
+}
+
+.filter__select__input:disabled + label {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.filter__select__label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 40px;
+  max-height: 0;
+  padding: 0 16px;
+  color: #db6492;
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.filter__select__label + input + .filter__select__label {
+  border-top: 0 solid #c7ccd160;
+}
+
+.filter__select__label:hover {
+  background-color: #db6492 !important;
+  color: #ffffff;
+}
+
+.filter__reset {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 230px;
+  padding: 8px 16px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border: solid 1px #c7ccd1;
+  border-radius: 5px;
+  -webkit-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #db6492;
+  color: #ffffff;
+}
+
+.filter__reset:hover {
+  background-color: #ffffff;
+  color: #db6492;
 }
 
 .footer {
@@ -1247,7 +1411,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 .popup {
-  z-index: 1100;
+  z-index: 1000;
   position: fixed;
   width: 50%;
   height: 100%;
@@ -1840,11 +2004,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 @media (min-width: 991.98px) {
-  .menu__link:hover {
-    color: #fff;
-    background-color: #7c53d2;
-  }
-
   ::-webkit-scrollbar {
     width: 0px;
     /* remove scrollbar space */
@@ -1891,9 +2050,14 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 @media (max-width: 991.98px) {
+  .filter__select__title {
+    border: solid 1px #fff;
+  }
+
   .popup {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1100;
   }
 
   .popup__body {
@@ -1968,35 +2132,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
   }
 }
 
-@media (max-width: 700px) {
-  .menu__link {
-    padding: 5px 5px;
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 530px) {
-  .menu__list {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding: 50px 0px 0px 0px;
-  }
-
-  .menu__list li {
-    margin: 0px 0 30px 0px;
-  }
-
-  .menu__list li:last-child {
-    margin: 0px 0 0px 0px;
-  }
-}
-
 @media (max-width: 479.98px) {
-  .menu__link {
-    margin: 0px 0px 25px 0px;
-  }
-
   .popup__content {
     padding: 30px 10px;
   }
