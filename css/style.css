@@ -1100,6 +1100,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
   margin: 0px 0px 20px 0px;
 }
 
+.menu__list li:last-child {
+  margin: 0px 0px 0px 0px;
+}
+
 .menu__link {
   min-height: 27px;
   font-size: 24px;
@@ -1109,7 +1113,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   -o-transition: all 0.3s ease 0s;
   transition: all 0.3s ease 0s;
   border-radius: 20px;
-  margin: 0px 0 10px 0px;
 }
 
 .icon-menu {
@@ -1280,7 +1283,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
   width: 230px;
   padding: 8px 16px;
   margin: 0 auto;
-  margin-bottom: 10px;
   border: solid 1px #c7ccd1;
   border-radius: 5px;
   -webkit-transition: all 0.2s ease-out;

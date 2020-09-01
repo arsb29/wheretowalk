@@ -215,6 +215,17 @@ const menuBody = document.querySelector('.menu__body');
 const mLink = document.querySelectorAll('.menu__link');
 const bodyBurger = document.querySelector('body');
 
+
+var metroSelect = document.querySelector('.filter__select__metroStation').querySelector('.filter__select__content')
+
+
+dataOfMetroStation = ["Автово", "Адмиралтейская", "Академическая", "Александра Невского", "Балтийская", "Беговая", "Большевиков пр.", "Бухарестская", "Василеостровская", "Владимирская", "Волковская", "Выборгская", "Горьковская", "Гостиный двор", "Гражданский пр.", "Девяткино", "Достоевская", "Дунайская", "Дыбенко ул.", "Елизаровская", "Звездная", "Звенигородская", "Кировский завод", "Комендантский пр.", "Крестовский остров", "Купчино", "Ладожская", "Ленинский пр.", "Лесная", "Лиговский пр.", "Ломоносовская", "Маяковская", "Международная", "Московская", "Московские ворота", "Нарвская", "Невский проспект", "Новокрестовская", "Новочеркасская", "Обводный канал", "Обухово", "Озерки", "Парк Победы", "Парнас", "Петроградская", "Пионерская", "Площадь Восстания", "Площадь Ленина", "Площадь Мужества", "Политехническая", "Приморская", "Пролетарская", "Проспект Ветеранов", "Проспект Просвещения", "Проспект Славы", "Пушкинская", "Рыбацкое", "Садовая", "Сенная площадь", "Спасская", "Спортивная", "Старая Деревня", "Технологический Институт", "Удельная", "Фрунзенская", "Черная речка", "Чернышевская", "Чкаловская", "Шушары", "Электросила"]
+
+for (var item = 2; item < dataOfMetroStation.length + 2; item++) {
+	metroSelect.innerHTML += '<input id="singleSelect' + item + '" class="filter__select__input" type="radio" name="singleSelect"	checked /><label for="singleSelect' + item + '" class="filter__select__label filter__select__label__metroStation">' + dataOfMetroStation[item - 2] + '</label>';
+}
+
+
 iconMenu.addEventListener('click', function () {
 	iconMenu.classList.toggle('active');
 	menuBody.classList.toggle('active');
@@ -276,12 +287,38 @@ for (let i = 0; i < selectSingle_labelsDistrict.length; i++) {
 	});
 }
 
+const selectSingleMetroStation = document.querySelector('.filter__select__metroStation');
+const selectSingle_titleMetroStation = selectSingleMetroStation.querySelector('.filter__select__title__metroStation');
+const selectSingle_labelsMetroStation = selectSingleMetroStation.querySelectorAll('.filter__select__label__metroStation');
+
+// Toggle menu
+selectSingle_titleMetroStation.addEventListener('click', () => {
+	if ('active' === selectSingleMetroStation.getAttribute('data-state')) {
+		selectSingleMetroStation.setAttribute('data-state', '');
+	} else {
+		selectSingleMetroStation.setAttribute('data-state', 'active');
+	}
+});
+
+// Close when click to option
+for (let i = 0; i < selectSingle_labelsMetroStation.length; i++) {
+	selectSingle_labelsMetroStation[i].addEventListener('click', (evt) => {
+		selectSingle_titleMetroStation.textContent = evt.target.textContent;
+		selectSingleMetroStation.setAttribute('data-state', '');
+
+	});
+}
+
 // Reset title
 const reset = document.querySelector('.filter__reset');
 reset.addEventListener('click', () => {
 	selectSingle_titleType.textContent = selectSingle_titleType.getAttribute('data-default');
 	selectSingle_titleDistrict.textContent = selectSingle_titleDistrict.getAttribute('data-default');
-});;
+	selectSingle_titleMetroStation.textContent = selectSingle_titleMetroStation.getAttribute('data-default');
+});
+
+
+;
 
 var map = new L.map("map").setView([59.939080, 30.315258], 12);
 
@@ -825,23 +862,53 @@ var layerGroup = L.layerGroup();
 // 	}
 // }
 
-var geoJsonLayer = L.geoJSON(geojson, {
-	style: function (feature) {
-		return { color: feature.properties.color };
-	},
-	filter: function (feature, layer) {
-		// return feature.properties.type === "Памятник"
-		return true
-	}
-}).bindPopup(function (layer) {
-	setTimeout(popupO, 0, curentPopup, layer.feature.properties);
-	var needAnimation = false;
-	map.flyTo(L.latLng(layer.getLatLng().lat, layer.getLatLng().lng - 0.04119873046875 / 4), 16, { animate: needAnimation });
-	return layer.feature.properties.title;
-}).addTo(map)
+function markersToMap(valueType = 'Все', valueDistrict = 'Все', valueMetroStation = 'Все') {
+	var geoJsonLayer = L.geoJSON(geojson, {
+		style: function (feature) {
+			return { color: feature.properties.color };
+		},
+		filter: function (feature, layer) {
+			var type = true;
+			var district = true;
+			var metro = true;
 
-// console.log(layerGroup);
-// layerGroup.addTo(map);
+			if ('Все' !== valueType) {
+				type = feature.properties.type === valueType;
+			};
+			if ('Все' !== valueDistrict) {
+				district = feature.properties.type === valueDistrict;
+			};
+			if ('Все' !== valueMetroStation) {
+				metro = feature.properties.metroStation === valueMetroStation;
+			};
+			// return feature.properties.type === "Памятник"
+			// console.log()
+			return type && district && metro
+		}
+	}).bindPopup(function (layer) {
+		setTimeout(popupO, 0, curentPopup, layer.feature.properties);
+		var needAnimation = false;
+		map.flyTo(L.latLng(layer.getLatLng().lat, layer.getLatLng().lng - 0.04119873046875 / 4), 16, { animate: needAnimation });
+		return layer.feature.properties.title;
+	})
+	return geoJsonLayer
+}
 
+var markersMap = markersToMap();
+markersMap.addTo(map);
+
+// 
+
+menuBody.querySelector('.filter__search').addEventListener('click', function () {
+	markersMap.removeFrom(map);
+	markersMap = markersToMap(selectSingle_titleType.innerHTML.trim(), selectSingle_titleDistrict.innerHTML.trim(), selectSingle_titleMetroStation.innerHTML.trim());
+	markersMap.addTo(map);
+	iconMenu.classList.toggle('active');
+	menuBody.classList.toggle('active');
+	if (parseInt(window.innerWidth) < 992) {
+		bodyBurger.classList.toggle('lock');
+	};
+});
 
 // popupO(curentPopup)
+
