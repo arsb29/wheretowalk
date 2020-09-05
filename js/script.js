@@ -71,9 +71,13 @@ function popupFilling(curentPopup, contentForFilling) {
 	picture.innerHTML = '';
 	for (var i = 0; i < contentForFilling.image.split(',').length; i++) {
 		picture.innerHTML += '<div class="swiper-slide"><img src="img/gulevan/' + contentForFilling.image.split(',')[i] + '" alt="" /></div>'
-	}
-	mySwiper.update();
+	};
+
+	picture.style.height = '469px';
+
 	mySwiper.slideTo(0, 0);
+
+	mySwiper.update();
 
 	// var source = document.createElement('img');
 	// source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
@@ -342,7 +346,7 @@ var geojson = {
 				"properties": {
 					"number": 2,
 					"title": "Воронинский сквер",
-					"image": "voroninskiy2.JPG,voroninskiy.jpg,",
+					"image": "voroninskiy2.JPG,voroninskiy.jpg",
 					"type": "Парк",
 					"address": "пр. Большой Сампсониевский, д. 75",
 					"district": "Выборгский",
@@ -475,9 +479,9 @@ menuBody.querySelector('.filter__search').addEventListener('click', function () 
 });
 
 var mySwiper = new Swiper('.swiper-container', {
-
+	autoHeight: true,
 	pagination: {
-		lazy: true,
+
 		el: '.swiper-pagination',
 		dynamicBullets: true,
 	},
