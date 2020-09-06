@@ -27,11 +27,6 @@ let unlock = true;
 const timeout = 800;
 
 
-function loading(picture) {
-
-}
-
-
 function popupFilling(curentPopup, contentForFilling) {
 	// curentPopup.querySelector('.loader').classList.remove('loader__hidden');
 	curentPopup.querySelector('.popup__title').innerHTML = contentForFilling.title;
@@ -62,45 +57,21 @@ function popupFilling(curentPopup, contentForFilling) {
 	curentPopup.querySelector('.popup__metroStation').innerHTML = contentForFilling.metroStation;
 	curentPopup.querySelector('.popup__address').innerHTML = contentForFilling.address;
 	curentPopup.querySelector('.popup__description').innerHTML = contentForFilling.description;
-	// if (contentForFilling.image === "") {
-	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "0px";
-	// } else {
-	// 	curentPopup.querySelector('.popup__image').style.paddingBottom = "50%";
-	// }
 	var picture = curentPopup.querySelector('.swiper-wrapper');
 	picture.innerHTML = '';
 	for (var i = 0; i < contentForFilling.image.split(',').length; i++) {
 		picture.innerHTML += '<div class="swiper-slide"><img src="img/gulevan/' + contentForFilling.image.split(',')[i] + '" alt="" /></div>'
 	};
 
-	picture.style.height = '469px';
-
-	mySwiper.slideTo(0, 0);
-
-	mySwiper.update();
-
-	// var source = document.createElement('img');
-	// source.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
-	// function deleteLoaderHidden(curentPopup) {
-	// 	curentPopup.querySelector('.loader').classList.add('loader__hidden');
-	// };
-	// source.onload = function () {
-	// 	picture.innerHTML = '<img src="img/gulevan/' + contentForFilling.image.split(',')[0] + '" alt="' + contentForFilling.title + '">';
-	// 	setTimeout(deleteLoaderHidden, 0, curentPopup);
-	// }
+	var img = new Image();
+	img.onload = function () {
+		mySwiper.slideTo(0, 0);
+		mySwiper.update();
+	}
+	img.src = "img/gulevan/" + contentForFilling.image.split(',')[0];
 
 	var metroColors = ['#d6083b', '#0078c9', '#009b47', '#ea7125', '#702785'];
-
 	curentPopup.querySelector('.popup__metroIcon').style.backgroundColor = metroColors[contentForFilling.metroLine - 1];
-	// console.log(curentPopup.querySelector('.popup__metroStation').style.background)
-	// var img = document.createElement('img');
-	// img.src = "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg"; // здесь начинается загрузка изображения
-	// img.onload = function () {
-	// 	picture.innerHTML = '<img id="your_photo" src="' + your_photo_path + '">';
-	// }
-	// picture.querySelector('source').setAttribute("srcset", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".webp");
-	// picture.querySelector('img').setAttribute("src", "img/gulevan/" + contentForFilling.image.split('.')[0] + ".jpg");
-
 }
 
 if (popupLinks.length > 0) {
@@ -330,7 +301,22 @@ reset.addEventListener('click', () => {
 });
 
 
-;
+var districtName = document.querySelector('.currentDistrict');
+var districtOnMap = document.querySelector('.districtsOnMap');
+var districtsOnMap = districtOnMap.querySelectorAll('path');
+function districtFilling(el) {
+	districtName.innerHTML = el.target.getAttribute('district-data');
+}
+function districtDelete(el) {
+	districtName.innerHTML = "";
+}
+for (var i = 0; i < districtsOnMap.length; i++) {
+	districtsOnMap[i].addEventListener('mouseenter', districtFilling)
+	districtsOnMap[i].addEventListener('mouseleave', districtDelete)
+	districtsOnMap[i].addEventListener('click', function (el) {
+		selectSingle_titleDistrict.textContent = el.target.getAttribute('district-data');
+	})
+};
 
 var map = new L.map("map").setView([59.939080, 30.315258], 12);
 
@@ -451,8 +437,6 @@ function markersToMap(valueType = 'Все', valueDistrict = 'Все', valueMetro
 			if ('Все' !== valueMetroStation) {
 				metro = feature.properties.metroStation === valueMetroStation;
 			};
-			// return feature.properties.type === "Памятник"
-			// console.log()
 			return type && district && metro
 		}
 	}).bindPopup(function (layer) {
@@ -477,6 +461,8 @@ menuBody.querySelector('.filter__search').addEventListener('click', function () 
 		bodyBurger.classList.toggle('lock');
 	};
 });
+
+
 
 var mySwiper = new Swiper('.swiper-container', {
 	autoHeight: true,
