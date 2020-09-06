@@ -1781,8 +1781,9 @@ button.swiper-pagination-bullet {
   overflow: auto;
   padding: 20px;
   z-index: 2;
-  background-color: #db6492;
   border-radius: 50%;
+  background-image: -o-linear-gradient(315deg, #ff9d6c 10%, #bb4e75 100%);
+  background-image: linear-gradient(135deg, #ff9d6c 10%, #bb4e75 100%);
   -webkit-transition: all 1.5s ease 0s;
   -o-transition: all 1.5s ease 0s;
   transition: all 1.5s ease 0s;
@@ -1835,7 +1836,7 @@ button.swiper-pagination-bullet {
   z-index: 5;
   background: url("../img/icons/searchWhite.png") 10px 10px/30px 30px no-repeat;
   border-radius: 0 0% 0 50%;
-  background-color: #db6492;
+  background-color: #ff9d6c;
   -webkit-transition: all 0.4s ease 0s;
   -o-transition: all 0.4s ease 0s;
   transition: all 0.4s ease 0s;
@@ -1969,7 +1970,7 @@ button.swiper-pagination-bullet {
   height: 40px;
   max-height: 0;
   padding: 0 16px;
-  color: #db6492;
+  color: #bb4e75;
   -webkit-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -1982,7 +1983,7 @@ button.swiper-pagination-bullet {
 }
 
 .filter__select__label:hover {
-  background-color: #db6492 !important;
+  background-color: #ff9d6c !important;
   color: #ffffff;
 }
 
@@ -1999,13 +2000,13 @@ button.swiper-pagination-bullet {
   transition: all 0.2s ease-out;
   cursor: pointer;
   font-weight: bold;
-  background-color: #db6492;
+  background-color: transparent;
   color: #ffffff;
 }
 
 .filter__reset:hover {
   background-color: #ffffff;
-  color: #db6492;
+  color: #bb4e75;
 }
 
 .mapCurrentDistrict {
@@ -2035,14 +2036,14 @@ path {
 }
 
 path:hover {
-  fill: #71caf3;
+  fill: #ff9d6c;
 }
 
 path:active {
-  -webkit-transition: all 0.0s ease 0s;
-  -o-transition: all 0.0s ease 0s;
-  transition: all 0.0s ease 0s;
-  fill: #237ca5;
+  -webkit-transition: all 0s ease 0s;
+  -o-transition: all 0s ease 0s;
+  transition: all 0s ease 0s;
+  fill: #bb4e75;
 }
 
 .footer {
